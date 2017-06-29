@@ -5,7 +5,6 @@
     });
 </script>
 <div>
-    <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
             <a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a>
@@ -20,22 +19,23 @@
         {{/TechTrees}}
     </ul>
 
-    <!-- Tab panes -->
     <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="home">...</div>
+        <div role="tabpanel" class="tab-pane active" id="home">hiho</div>
         {{#TechTrees}}
             <div role="tabpanel" class="tab-pane" id="{{Name}}">
-                <div id="tree{{Name}}" style="width:800px; height:450px; background-color: #DAE4E4;"></div>
+                <div id="tree{{Name}}" style="width:1500px; height:900px; background-color: #DAE4E4;"></div>
                 <script>
                     initTree("{{Name}}", [
                         {{#Nodes}}
                             {
-                              key: "{{Key}}",
-                              name: "{{Name}}",
-                              {{#Parent}}
-                                  parent: "{{Parent}}"
-                              {{/Parent}}
-
+                                key: "{{Key}}",
+                                name: "{{Name}}",
+                                description: "{{Description}}",
+                                production: "{{Production}}",
+                                cost: "{{Cost}}",
+                                {{#Parent}}
+                                    parent: "{{Parent}}"
+                                {{/Parent}}
                             },
                         {{/Nodes}}
                     ]);
