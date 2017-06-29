@@ -4,7 +4,6 @@
         $(this).tab('show');
     });
 </script>
-
 <div>
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
@@ -26,12 +25,22 @@
         <div role="tabpanel" class="tab-pane active" id="home">...</div>
         {{#TechTrees}}
             <div role="tabpanel" class="tab-pane" id="{{Name}}">
-                <div id="myDiagramDiv" style="width:800px; height:450px; background-color: #DAE4E4;"></div>
-                {{#Nodes}}
+                <div id="tree{{Name}}" style="width:800px; height:450px; background-color: #DAE4E4;"></div>
+                <script>
+                    initTree("{{Name}}", [
+                        {{#Nodes}}
+                            {
+                              key: "{{Key}}",
+                              name: "{{Name}}",
+                              {{#Parent}}
+                                  parent: "{{Parent}}"
+                              {{/Parent}}
 
-                {{/Nodes}}
+                            },
+                        {{/Nodes}}
+                    ]);
+                </script>
             </div>
         {{/TechTrees}}
     </div>
-
 </div>

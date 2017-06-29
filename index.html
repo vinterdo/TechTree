@@ -22,7 +22,6 @@
         $.get('data/data.json', function(data) {
             var rendered = Mustache.render(template, data);
             $('#target').html(rendered);
-            init();
         });
     });
 </script>
