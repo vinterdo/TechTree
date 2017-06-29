@@ -1,0 +1,37 @@
+<script>
+    $('#myTabs').find('a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+</script>
+
+<div>
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active">
+            <a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a>
+        </li>
+
+        {{#TechTrees}}
+            <li role="presentation">
+                <a href="#{{Name}}" aria-controls="{{Name}}" role="tab" data-toggle="tab">
+                    {{Name}}
+                </a>
+            </li>
+        {{/TechTrees}}
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="home">...</div>
+        {{#TechTrees}}
+            <div role="tabpanel" class="tab-pane" id="{{Name}}">
+                <div id="myDiagramDiv" style="width:800px; height:450px; background-color: #DAE4E4;"></div>
+                {{#Nodes}}
+
+                {{/Nodes}}
+            </div>
+        {{/TechTrees}}
+    </div>
+
+</div>
