@@ -1,9 +1,4 @@
-<script>
-    $('#myTabs').find('a').click(function (e) {
-        e.preventDefault();
-        $(this).tab('show');
-    });
-</script>
+
 <div>
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
@@ -23,7 +18,7 @@
         <div role="tabpanel" class="tab-pane active" id="home">hiho</div>
         {{#TechTrees}}
             <div role="tabpanel" class="tab-pane" id="{{Name}}">
-                <div id="tree{{Name}}" style="width:1500px; height:900px; background-color: #DAE4E4;"></div>
+                <div id="tree{{Name}}" class="treeDiv" style="width:1500px; height:900px; background-color: #DAE4E4;"></div>
                 <script>
                     initTree("{{Name}}", [
                         {{#Nodes}}
