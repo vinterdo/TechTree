@@ -25,6 +25,7 @@
 </div>
 
 <script>
+function main_in_template() {
     {{#TechTrees}}
         initTree("{{Name}}", [
             {{#Nodes}}
@@ -41,4 +42,5 @@
             {{/Nodes}}
         ]);
     {{/TechTrees}}
+}
 </script>
