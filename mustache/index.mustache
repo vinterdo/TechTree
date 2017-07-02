@@ -19,23 +19,26 @@
         {{#TechTrees}}
             <div role="tabpanel" class="tab-pane" id="{{Name}}">
                 <div id="tree{{Name}}" class="treeDiv" style="width:1500px; height:900px; background-color: #DAE4E4;"></div>
-                <script>
-                    initTree("{{Name}}", [
-                        {{#Nodes}}
-                            {
-                                key: "{{Key}}",
-                                name: "{{Name}}",
-                                description: "{{Description}}",
-                                production: "{{Production}}",
-                                cost: "{{Cost}}",
-                                {{#Parent}}
-                                    parent: "{{Parent}}"
-                                {{/Parent}}
-                            },
-                        {{/Nodes}}
-                    ]);
-                </script>
             </div>
         {{/TechTrees}}
     </div>
 </div>
+
+<script>
+    {{#TechTrees}}
+        initTree("{{Name}}", [
+            {{#Nodes}}
+                {
+                    key: "{{Key}}",
+                    name: "{{Name}}",
+                    description: "{{Description}}",
+                    production: "{{Production}}",
+                    cost: "{{Cost}}",
+                    {{#Parent}}
+                        parent: "{{Parent}}"
+                    {{/Parent}}
+                },
+            {{/Nodes}}
+        ]);
+    {{/TechTrees}}
+</script>
