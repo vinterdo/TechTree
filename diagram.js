@@ -37,4 +37,6 @@ function initTree(treeName, nodes) {
     var model = graph(go.TreeModel);
     model.nodeDataArray = nodes;
     myDiagram.model = model;
+
+    return myDiagram;
 }

@@ -1,5 +1,5 @@
 
-<div>
+<div id="tabsy">
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
             <a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a>
@@ -26,21 +26,51 @@
 
 <script>
 function main_in_template() {
-    {{#TechTrees}}
-        initTree("{{Name}}", [
-            {{#Nodes}}
-                {
-                    key: "{{Key}}",
-                    name: "{{Name}}",
-                    description: "{{Description}}",
-                    production: "{{Production}}",
-                    cost: "{{Cost}}",
-                    {{#Parent}}
-                        parent: "{{Parent}}"
-                    {{/Parent}}
-                },
-            {{/Nodes}}
-        ]);
-    {{/TechTrees}}
+
+    var panels = {};
+
+{{#TechTrees}}
+    panels['#{{Name}}'] = {
+        firstTime: true,
+        myDiagram: initTree("{{Name}}", [
+        {{#Nodes}}
+            {
+                key: "{{Key}}",
+                name: "{{Name}}",
+                description: "{{Description}}",
+                production: "{{Production}}",
+                cost: "{{Cost}}",
+                {{#Parent}}
+                    parent: "{{Parent}}"
+                {{/Parent}}
+            },
+        {{/Nodes}}
+        ])
+    };
+{{/TechTrees}}
+
+// delayed initialization of all diagrams
+$(function() {
+    $("#tabsy").tabs({
+        activate: function(event, ui) {
+            var ctxt = panels[ui.newPanel.selector];
+            if (!ctxt) return;
+            var myDiagram = ctxt.myDiagram;
+
+            // Needed the first time you tab to a tab with a Diagram in it,
+            // because the diagram in the tab had zero size while initializing:
+            if (ctxt.firstTime) {
+                myDiagram.delayInitialization(function() {
+                    myDiagram.requestUpdate();
+                });
+                ctxt.firstTime = false;
+            }
+
+            // every time after you need nothing, or in case the Diagram div changed size, this:
+            myDiagram.requestUpdate();
+        }
+    });
+});
+
 }
 </script>
