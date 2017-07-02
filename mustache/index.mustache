@@ -49,28 +49,8 @@ function main_in_template() {
     };
 {{/TechTrees}}
 
-// delayed initialization of all diagrams
-$(function() {
-    $("#tabsy").tabs({
-        activate: function(event, ui) {
-            var ctxt = panels[ui.newPanel.selector];
-            if (!ctxt) return;
-            var myDiagram = ctxt.myDiagram;
-
-            // Needed the first time you tab to a tab with a Diagram in it,
-            // because the diagram in the tab had zero size while initializing:
-            if (ctxt.firstTime) {
-                myDiagram.delayInitialization(function() {
-                    myDiagram.requestUpdate();
-                });
-                ctxt.firstTime = false;
-            }
-
-            // every time after you need nothing, or in case the Diagram div changed size, this:
-            myDiagram.requestUpdate();
-        }
+    $(function() {
+        delayed_initialization_of_diagrams($("#tabsy"), panels);
     });
-});
-
 }
 </script>
