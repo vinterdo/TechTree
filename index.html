@@ -19,12 +19,17 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="diagram.js"></script>
 <script>
-    $.get('mustache/index.mustache', function(template) {
-        $.get('data/data.json', function(data) {
-            var rendered = Mustache.render(template, data);
-            $('#target').html(rendered);
-        });
+    var template = $.get('mustache/index.mustache');
+    var data = $.get('data/data.json');
+    $.when(template, data)
+    .done(function(template, data) {
+        var rendered = Mustache.render(template[0], data[0]);
+        $('#target').html(rendered);
+    })
+    .fail(function() {
+        console.log('template or data not loaded correctly');
     });
+
     $('#myTabs').find('a').click(function (e) {
         e.preventDefault();
         $(this).tab('show');
