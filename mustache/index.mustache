@@ -1,5 +1,5 @@
 
-<div>
+<div id="tabsy">
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
             <a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a>
@@ -19,23 +19,36 @@
         {{#TechTrees}}
             <div role="tabpanel" class="tab-pane" id="{{Name}}">
                 <div id="tree{{Name}}" class="treeDiv" style="width:1500px; height:900px; background-color: #DAE4E4;"></div>
-                <script>
-                    initTree("{{Name}}", [
-                        {{#Nodes}}
-                            {
-                                key: "{{Key}}",
-                                name: "{{Name}}",
-                                description: "{{Description}}",
-                                production: "{{Production}}",
-                                cost: "{{Cost}}",
-                                {{#Parent}}
-                                    parent: "{{Parent}}"
-                                {{/Parent}}
-                            },
-                        {{/Nodes}}
-                    ]);
-                </script>
             </div>
         {{/TechTrees}}
     </div>
 </div>
+
+<script>
+function main_in_template() {
+
+    var panels = {};
+
+{{#TechTrees}}
+    panels['#{{Name}}'] = {
+        firstTime: true,
+        myDiagram: initTree("{{Name}}", [
+        {{#Nodes}}
+            {
+                key: "{{Key}}",
+                name: "{{Name}}",
+                description: "{{Description}}",
+                production: "{{Production}}",
+                cost: "{{Cost}}",
+                {{#Parent}}
+                    parent: "{{Parent}}"
+                {{/Parent}}
+            },
+        {{/Nodes}}
+        ])
+    };
+{{/TechTrees}}
+
+    delayed_initialization_of_diagrams($("#tabsy"), panels);
+}
+</script>

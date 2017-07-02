@@ -4,31 +4,41 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-    <script src="diagram.js"></script>
     <link rel="stylesheet" type="text/css" href="tabs.css">
 </head>
 <body>
+
+<div id="target">
+</div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script src=https://cdnjs.cloudflare.com/ajax/libs/gojs/1.7.14/go.js></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<div id="target">
-</div>
+<script src="diagram.js"></script>
 <script>
-    $.get('mustache/index.mustache', function(template) {
-        $.get('data/data.json', function(data) {
-            var rendered = Mustache.render(template, data);
-            $('#target').html(rendered);
+    // callback runs after rendering the template
+    function main() {
+        $('#myTabs').find('a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
         });
-    });
-</script>
-<script>
-    $('#myTabs').find('a').click(function (e) {
-        e.preventDefault();
-        $(this).tab('show');
+
+        main_in_template();
+    }
+
+    var template = $.get('mustache/index.mustache');
+    var data = $.get('data/data.json');
+    $.when(template, data)
+    .done(function(template, data) {
+        var rendered = Mustache.render(template[0], data[0]);
+        $('#target').html(rendered);
+    })
+    .then(main)
+    .fail(function() {
+        console.log('template or data not loaded correctly');
     });
 </script>
 </body>

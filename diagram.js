@@ -37,4 +37,28 @@ function initTree(treeName, nodes) {
     var model = graph(go.TreeModel);
     model.nodeDataArray = nodes;
     myDiagram.model = model;
+
+    return myDiagram;
+}
+
+function delayed_initialization_of_diagrams(tabsy, panels) {
+    tabsy.tabs({
+        activate: function(event, ui) {
+            var ctxt = panels[ui.newPanel.selector];
+            if (!ctxt) return;
+            var myDiagram = ctxt.myDiagram;
+
+            // Needed the first time you tab to a tab with a Diagram in it,
+            // because the diagram in the tab had zero size while initializing:
+            if (ctxt.firstTime) {
+                myDiagram.delayInitialization(function() {
+                    myDiagram.requestUpdate();
+                });
+                ctxt.firstTime = false;
+            }
+
+            // every time after you need nothing, or in case the Diagram div changed size, this:
+            myDiagram.requestUpdate();
+        }
+    });
 }
