@@ -19,6 +19,14 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="diagram.js"></script>
 <script>
+    // callback runs after rendering the template
+    function main() {
+        $('#myTabs').find('a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
+    }
+
     var template = $.get('mustache/index.mustache');
     var data = $.get('data/data.json');
     $.when(template, data)
@@ -26,13 +34,9 @@
         var rendered = Mustache.render(template[0], data[0]);
         $('#target').html(rendered);
     })
+    .then(main)
     .fail(function() {
         console.log('template or data not loaded correctly');
-    });
-
-    $('#myTabs').find('a').click(function (e) {
-        e.preventDefault();
-        $(this).tab('show');
     });
 </script>
 </body>
