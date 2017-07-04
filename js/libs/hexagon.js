@@ -48,10 +48,45 @@ HexagonGrid.prototype.drawHexGrid = function (rows, cols, originX, originY, isDe
 };
 
 HexagonGrid.prototype.drawHexAtColRow = function(column, row, color, text) {
-    var drawy = column % 2 == 0 ? (row * this.height) + this.canvasOriginY : (row * this.height) + this.canvasOriginY + (this.height / 2);
+    var drawy = column % 2 === 0 ? (row * this.height) + this.canvasOriginY : (row * this.height) + this.canvasOriginY + (this.height / 2);
     var drawx = (column * this.side) + this.canvasOriginX;
 
     this.drawHex(drawx, drawy, color, text);
+};
+HexagonGrid.prototype.drawHexBorder = function(column, row, dir, color) {
+    var drawy = column % 2 === 0 ? (row * this.height) + this.canvasOriginY : (row * this.height) + this.canvasOriginY + (this.height / 2);
+    var drawx = (column * this.side) + this.canvasOriginX;
+
+    this.context.strokeStyle = color;
+    this.context.beginPath();
+    switch (dir) {
+        case "up":
+            this.context.moveTo(drawx + this.width - this.side, drawy);
+            this.context.lineTo(drawx + this.side, drawy);
+            break;
+        case "down":
+            this.context.moveTo(drawx + this.width - this.side, drawy + this.height);
+            this.context.lineTo(drawx + this.side, drawy + this.height);
+            break;
+        case "leftUp":
+            this.context.moveTo(drawx + this.width - this.side, drawy);
+            this.context.lineTo(drawx, drawy + (this.height / 2));
+            break;
+        case "leftDown":
+            this.context.moveTo(drawx + this.width - this.side, drawy + this.height);
+            this.context.lineTo(drawx, drawy + (this.height / 2));
+            break;
+        case "rightUp":
+            this.context.moveTo(drawx + this.side, drawy);
+            this.context.lineTo(drawx + this.width, drawy + (this.height / 2));
+            break;
+        case "rightDown":
+            this.context.moveTo(drawx + this.width, drawy + (this.height / 2));
+            this.context.lineTo(drawx + this.side, drawy + this.height);
+            break;
+    }
+    this.context.closePath();
+    this.context.stroke();
 };
 
 HexagonGrid.prototype.drawHex = function(x0, y0, fillColor, debugText) {
