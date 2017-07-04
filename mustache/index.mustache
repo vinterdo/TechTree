@@ -15,7 +15,17 @@
     </ul>
 
     <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="home">hiho</div>
+        <div role="tabpanel" class="tab-pane active" id="home">
+            <canvas id="HexCanvas" width="1000" height="850"></canvas>
+            <script>
+                var hexagonGrid = new HexagonGrid("HexCanvas", 22);
+                hexagonGrid.drawHexGrid(21, 21, 5, 5, true);
+
+                {{#MapTiles}}
+                    hexagonGrid.drawHexAtColRow({{x}}, {{y}}, "{{color}}", "{{x}},{{y}}");
+                {{/MapTiles}}
+            </script>
+        </div>
         {{#TechTrees}}
             <div role="tabpanel" class="tab-pane" id="{{Name}}">
                 <div id="tree{{Name}}" class="treeDiv" style="width:1500px; height:900px; background-color: #DAE4E4;"></div>
