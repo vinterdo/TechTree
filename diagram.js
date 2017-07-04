@@ -1,3 +1,6 @@
+
+var trees = {};
+
 function initTree(treeName, nodes) {
     var graph = go.GraphObject.make;
 
@@ -41,10 +44,10 @@ function initTree(treeName, nodes) {
     return myDiagram;
 }
 
-function delayed_initialization_of_diagrams(tabsy, panels) {
+function delayedInitializationOfDiagrams(tabsy) {
     tabsy.tabs({
         activate: function(event, ui) {
-            var ctxt = panels[ui.newPanel.selector];
+            var ctxt = trees[ui.newPanel.selector];
             if (!ctxt) return;
             var myDiagram = ctxt.myDiagram;
 

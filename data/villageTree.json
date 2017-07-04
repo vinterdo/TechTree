@@ -1,0 +1,27 @@
+{
+  "Nodes": [
+    {
+      "Key": "wioska",
+      "Name": "Wioska",
+      "Description": "Wioska. Mieszkaja w niej wiesniaki. ",
+      "Production": "+2 zywnosc, 1 pole budowy",
+      "Cost": "50sz, 10 drewna, 1 populacja"
+    },
+    {
+      "Key": "poreba",
+      "Name": "Poreba",
+      "Description": "Produkuje drewno",
+      "Production": "+8 drewna",
+      "Cost": "50sz, 1 populacja",
+      "Parent": "wioska"
+    },
+    {
+      "Key": "odkrywka",
+      "Name": "Odkrywka kamienia - wzgórza",
+      "Description": "Produkuje kamulce",
+      "Production": "+4 kamień",
+      "Cost": "100sz, 1 populacja",
+      "Parent": "wioska"
+    }
+  ]
+}

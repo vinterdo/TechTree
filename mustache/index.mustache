@@ -1,70 +1,35 @@
-
 <div id="tabsy">
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
             <a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a>
         </li>
 
-        {{#TechTrees}}
+        {{#Tabs}}
             <li role="presentation">
                 <a href="#{{Name}}" aria-controls="{{Name}}" role="tab" data-toggle="tab">
                     {{Name}}
                 </a>
             </li>
-        {{/TechTrees}}
+        {{/Tabs}}
     </ul>
 
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="home">
-            <canvas id="HexCanvas" width="1000" height="850"></canvas>
-            <script>
-                var hexagonGrid = new HexagonGrid("HexCanvas", 22);
-                hexagonGrid.drawHexGrid(21, 21, 5, 5, true);
-                {{#MapTiles}}
-                    hexagonGrid.drawHexAtColRow({{x}}, {{y}}, "{{color}}", "{{x}},{{y}}");
-                {{/MapTiles}}
-                /*
-                hexagonGrid.drawHexBorder(10, 10, "up", "#ff00ff");
-                hexagonGrid.drawHexBorder(10, 10, "down", "#ff00ff");
-                hexagonGrid.drawHexBorder(10, 10, "rightUp", "#ff00ff");
-                hexagonGrid.drawHexBorder(10, 10, "rightDown", "#ff00ff");
-                hexagonGrid.drawHexBorder(10, 10, "leftUp", "#ff00ff");
-                hexagonGrid.drawHexBorder(10, 10, "leftDown", "#ff00ff");*/
-            </script>
+
         </div>
-        {{#TechTrees}}
+        {{#Tabs}}
             <div role="tabpanel" class="tab-pane" id="{{Name}}">
-                <div id="tree{{Name}}" class="treeDiv" style="width:1500px; height:900px; background-color: #DAE4E4;"></div>
+                <script>
+
+                    var template = $.get('mustache/{{Template}}');
+                    var data = $.get('data/{{Data}}');
+                    $.when(template, data)
+                            .done(function (template, data) {
+                                var rendered = Mustache.render(template[0], data[0]);
+                                $('#{{Name}}').html(rendered);
+                            });
+                </script>
             </div>
-        {{/TechTrees}}
+        {{/Tabs}}
     </div>
 </div>
-
-<script>
-function main_in_template() {
-
-    var panels = {};
-
-{{#TechTrees}}
-    panels['#{{Name}}'] = {
-        firstTime: true,
-        myDiagram: initTree("{{Name}}", [
-        {{#Nodes}}
-            {
-                key: "{{Key}}",
-                name: "{{Name}}",
-                description: "{{Description}}",
-                production: "{{Production}}",
-                cost: "{{Cost}}",
-                {{#Parent}}
-                    parent: "{{Parent}}"
-                {{/Parent}}
-            },
-        {{/Nodes}}
-        ])
-    };
-{{/TechTrees}}
-
-    delayed_initialization_of_diagrams($("#tabsy"), panels);
-}
-</script>

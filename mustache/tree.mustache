@@ -1,0 +1,22 @@
+<div id="tree{{TreeName}}" class="treeDiv"
+     style="width:1500px; height:900px; background-color: #DAE4E4;">
+    <script>
+        trees['#{{TreeName}}'] = {
+            firstTime: true,
+            myDiagram: initTree("{{TreeName}}", [
+                {{#Nodes}}
+                    {
+                        key: "{{Key}}",
+                        name: "{{Name}}",
+                        description: "{{Description}}",
+                        production: "{{Production}}",
+                        cost: "{{Cost}}",
+                        {{#Parent}}
+                            parent: "{{Parent}}"
+                        {{/Parent}}
+                    },
+                {{/Nodes}}
+            ])
+        };
+    </script>
+</div>
