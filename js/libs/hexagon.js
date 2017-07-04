@@ -12,14 +12,14 @@ function HexagonGrid(canvasId, radius) {
 
     this.canvasOriginX = 0;
     this.canvasOriginY = 0;
-    
+
     this.canvas.addEventListener("mousedown", this.clickEvent.bind(this), false);
 };
 
 HexagonGrid.prototype.drawHexGrid = function (rows, cols, originX, originY, isDebug) {
     this.canvasOriginX = originX;
     this.canvasOriginY = originY;
-    
+
     var currentHexX;
     var currentHexY;
     var debugText = "";
@@ -47,17 +47,18 @@ HexagonGrid.prototype.drawHexGrid = function (rows, cols, originX, originY, isDe
     }
 };
 
-HexagonGrid.prototype.drawHexAtColRow = function(column, row, color, text) {
+HexagonGrid.prototype.drawHexAtColRow = function (column, row, color, text) {
     var drawy = column % 2 === 0 ? (row * this.height) + this.canvasOriginY : (row * this.height) + this.canvasOriginY + (this.height / 2);
     var drawx = (column * this.side) + this.canvasOriginX;
 
     this.drawHex(drawx, drawy, color, text);
 };
-HexagonGrid.prototype.drawHexBorder = function(column, row, dir, color) {
+HexagonGrid.prototype.drawHexBorder = function (column, row, dir, color, lineWidth) {
     var drawy = column % 2 === 0 ? (row * this.height) + this.canvasOriginY : (row * this.height) + this.canvasOriginY + (this.height / 2);
     var drawx = (column * this.side) + this.canvasOriginX;
 
     this.context.strokeStyle = color;
+    this.context.lineWidth = lineWidth;
     this.context.beginPath();
     switch (dir) {
         case "up":
@@ -87,9 +88,11 @@ HexagonGrid.prototype.drawHexBorder = function(column, row, dir, color) {
     }
     this.context.closePath();
     this.context.stroke();
+    this.context.strokeStyle = "#000";
+    this.context.lineWidth=1
 };
 
-HexagonGrid.prototype.drawHex = function(x0, y0, fillColor, debugText) {
+HexagonGrid.prototype.drawHex = function (x0, y0, fillColor, debugText) {
     this.context.strokeStyle = "#000";
     this.context.beginPath();
     this.context.moveTo(x0 + this.width - this.side, y0);
@@ -110,29 +113,29 @@ HexagonGrid.prototype.drawHex = function(x0, y0, fillColor, debugText) {
     if (debugText) {
         this.context.font = "8px";
         this.context.fillStyle = "#000";
-        this.context.fillText(debugText, x0 + (this.width / 2) - (this.width/4), y0 + (this.height - 5));
+        this.context.fillText(debugText, x0 + (this.width / 2) - (this.width / 4), y0 + (this.height - 5));
     }
 };
 
 //Recusivly step up to the body to calculate canvas offset.
-HexagonGrid.prototype.getRelativeCanvasOffset = function() {
-	var x = 0, y = 0;
-	var layoutElement = this.canvas;
+HexagonGrid.prototype.getRelativeCanvasOffset = function () {
+    var x = 0, y = 0;
+    var layoutElement = this.canvas;
     if (layoutElement.offsetParent) {
         do {
             x += layoutElement.offsetLeft;
             y += layoutElement.offsetTop;
         } while (layoutElement = layoutElement.offsetParent);
-        
-        return { x: x, y: y };
+
+        return {x: x, y: y};
     }
 }
 
 //Uses a grid overlay algorithm to determine hexagon location
 //Left edge of grid has a test to acuratly determin correct hex
-HexagonGrid.prototype.getSelectedTile = function(mouseX, mouseY) {
+HexagonGrid.prototype.getSelectedTile = function (mouseX, mouseY) {
 
-	var offSet = this.getRelativeCanvasOffset();
+    var offSet = this.getRelativeCanvasOffset();
 
     mouseX -= offSet.x;
     mouseY -= offSet.y;
@@ -197,11 +200,11 @@ HexagonGrid.prototype.getSelectedTile = function(mouseX, mouseY) {
         }
     }
 
-    return  { row: row, column: column };
+    return {row: row, column: column};
 };
 
 
-HexagonGrid.prototype.sign = function(p1, p2, p3) {
+HexagonGrid.prototype.sign = function (p1, p2, p3) {
     return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
 };
 
@@ -229,5 +232,5 @@ HexagonGrid.prototype.clickEvent = function (e) {
         var drawx = (tile.column * this.side) + this.canvasOriginX;
 
         this.drawHex(drawx, drawy - 6, "rgba(110,110,70,0.3)", "");
-    } 
+    }
 };

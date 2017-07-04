@@ -5,11 +5,7 @@
         {{#MapTiles}}
         hexagonGrid.drawHexAtColRow({{x}}, {{y}}, "{{color}}", "{{x}},{{y}}");
         {{/MapTiles}}
-    /*
-    hexagonGrid.drawHexBorder(10, 10, "up", "#ff00ff");
-    hexagonGrid.drawHexBorder(10, 10, "down", "#ff00ff");
-    hexagonGrid.drawHexBorder(10, 10, "rightUp", "#ff00ff");
-    hexagonGrid.drawHexBorder(10, 10, "rightDown", "#ff00ff");
-    hexagonGrid.drawHexBorder(10, 10, "leftUp", "#ff00ff");
-    hexagonGrid.drawHexBorder(10, 10, "leftDown", "#ff00ff");*/
+        {{#RiverSegments}}
+        hexagonGrid.drawHexBorder({{x}}, {{y}}, "{{dir}}", "{{color}}", 5);
+        {{/RiverSegments}}
 </script>

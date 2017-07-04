@@ -12,22 +12,22 @@
             </li>
         {{/Tabs}}
     </ul>
-
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="home">
-
         </div>
         {{#Tabs}}
             <div role="tabpanel" class="tab-pane" id="{{Name}}">
                 <script>
-
+                    function init() {
+                        delayedInitializationOfDiagrams($("#tabsy"));
+                    }
                     var template = $.get('mustache/{{Template}}');
                     var data = $.get('data/{{Data}}');
                     $.when(template, data)
                             .done(function (template, data) {
                                 var rendered = Mustache.render(template[0], data[0]);
                                 $('#{{Name}}').html(rendered);
-                            });
+                            }).then(init);
                 </script>
             </div>
         {{/Tabs}}
